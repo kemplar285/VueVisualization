@@ -7,7 +7,7 @@
     <ul
       class="
         list-none
-        bg-blue-900 bg-opacity-30
+        bg-blue-600 bg-opacity-30
         p-1.5
         rounded-lg
         text-center
@@ -28,14 +28,14 @@
         }"
       >
         <label
-          :for="`${_uid}${index}`"
+          :for="`${index}`"
           v-text="tab"
           class="cursor-pointer block"
         />
         <input
-          :id="`${_uid}${index}`"
+          :id="`${index}`"
           type="radio"
-          :name="`${_uid}-tab`"
+          :name="`${index}-tab`"
           :value="index + 1"
           v-model="activeTab"
           class="hidden"
