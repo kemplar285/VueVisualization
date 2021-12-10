@@ -5,39 +5,45 @@
 </template>
 
 <script>
-import axios from 'axios'
+import SensorService from '../../Scripts/SensorService'
 export default {
   data: () => ({
-    Sensors: [],
+    Sensors: null,
     options: {
       chart: {
-        id: 'vuechart-example'
+        id: 'vuechart'
       },
       xaxis: {
         type: 'datetime',
         categories: []
+      },
+      noData: {
+        text: 'Loading...',
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          color: '#000000',
+          fontSize: '14px',
+          fontFamily: 'Helvetica'
+        }
       }
     },
     series: [{
       data: []
     }]
   }),
+  sensorService: null,
+  created () {
+    this.sensorService = new SensorService()
+  },
   mounted () {
-    axios
-      .get('http://localhost:3000/sensors')
-      .then((response) => {
-        this.Sensors = response.data
-        this.Sensors.forEach((element) => {
-          if (element.controllersensorid === 19 && element.typevalueid === 1) {
-            this.series[0].data.push(element.data)
-            this.options.xaxis.categories.push(element.data)
-          }
-        })
-        console.log(this.series[0].data)
+    this.sensorService.getHighAccuracyTemperature().then((response) => {
+      this.Sensors = response
+      this.Sensors.forEach((element) => {
       })
-      .catch((error) => {
-        console.log(error)
-      })
+    })
   }
 }
 </script>
