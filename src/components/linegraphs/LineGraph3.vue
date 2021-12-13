@@ -6,7 +6,6 @@
       py-4
       px-1
       shadow-lg
-      mb-8
       w-6/12
       inline-flex
       flex-col
@@ -29,35 +28,38 @@
 
 <script>
 import SensorService from '../../Scripts/SensorService'
-import moment from 'moment'
 export default {
   data: () => ({
     Sensors: [],
+    DailyMax: {},
     width: '100%',
     options: {
       tooltip: {
         x: {
           show: true,
-          format: 'dd/MMM - HH:mm:ss',
-          formatter: undefined
+          format: 'dd/MMM'
         }
       },
       stroke: {
-        curve: 'smooth'
+        curve: 'straight'
       },
       dataLabels: {
         enabled: false
       },
       chart: {
-        id: 'DifferenceGraph',
+        id: 'Daily Average',
         width: '40%'
       },
       xaxis: {
         type: 'datetime',
         labels: {
-          datetimeUTC: false
+          datetimeUTC: false,
+          format: 'dd/MM'
         },
-        categories: []
+        categories: [],
+        tooltip: {
+          enabled: false
+        }
       },
 
       noData: {
@@ -85,17 +87,11 @@ export default {
     this.sensorService = new SensorService()
   },
   mounted () {
-    this.sensorService.getHighAccuracyTemperature().then(response => {
-      this.Sensors = response
-      this.Sensors.forEach(element => {
-        const thisDate = moment(element.date_time).format('LL')
-        if (!this.options.xaxis.categories.includes(thisDate)) {
-          this.options.xaxis.categories.push(thisDate)
-        }
-        this.series[0].data.push(element.data)
+    this.sensorService.getDailyAverage().then(response => {
+      response.forEach(element => {
+        this.options.xaxis.categories.push(element.date)
+        this.series[0].data.push(element.average)
       })
-      console.log(this.options.xaxis.categories)
-      console.log(this.series[0].data)
     })
   }
 }

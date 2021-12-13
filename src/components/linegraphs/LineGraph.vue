@@ -1,5 +1,5 @@
 <template>
-  <div class="border-2 rounded-lg py-4 px-1 shadow-lg mb-8">
+  <div class="border-2 rounded-lg py-4 px-1 shadow-lg mb-3">
     <h1 class="ml-5 text-xl font-semibold">High Accuracy Temperature</h1>
     <apexchart
       v-if="series"
@@ -39,7 +39,10 @@ export default {
         labels: {
           datetimeUTC: false
         },
-        categories: []
+        categories: [],
+        tooltip: {
+          enabled: false
+        }
       },
 
       noData: {

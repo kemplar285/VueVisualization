@@ -6,7 +6,6 @@
       py-4
       px-1
       shadow-lg
-      mb-8
       w-6/12
       inline-flex
       flex-col
@@ -56,7 +55,10 @@ export default {
         labels: {
           datetimeUTC: false
         },
-        categories: []
+        categories: [],
+        tooltip: {
+          enabled: false
+        }
       },
 
       noData: {

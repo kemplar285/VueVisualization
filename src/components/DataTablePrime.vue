@@ -82,6 +82,7 @@ export default {
   mounted () {
     this.sensorService.getSensors().then((data) => {
       this.sensors = data
+      this.sensorService.formatDateTime(this.sensors)
     })
   },
   methods: {}
